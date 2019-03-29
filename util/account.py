@@ -1,26 +1,9 @@
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import sys
-from time import sleep
-from re import findall
-import math
 
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
-
-import requests
-from util.settings import Settings
-from .util import web_adress_navigator
-from util.extractor_posts import extract_post_info
-import datetime
-from util.instalogger import InstaLogger
-from util.exceptions import PageNotFound404, NoInstaProfilePageFound
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 def login(browser, login_username, login_password):
@@ -46,8 +29,8 @@ def login(browser, login_username, login_password):
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "XrOey")))
         print('logged in')
     except Exception as e:
-            print(e, "login failed")
-            sys.exit(1)
+        print(e, "login failed")
+        sys.exit(1)
 
 
 def send_security_code(browser):

@@ -1,13 +1,13 @@
 # simple module for reading crawled profile information and logging the stats
-import json
-import datetime
-import csv
 import argparse
-from util.settings import Settings
+import csv
 import glob
+import json
 import os
 import shutil
 import sys
+
+from util.settings import Settings
 
 
 def move_file_to_done(profile_filename):

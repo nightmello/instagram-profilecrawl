@@ -1,15 +1,14 @@
 """Methods to extract the data for the given usernames profile"""
-from time import sleep
 from re import findall
-import math
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
+from time import sleep
+
 import requests
+from selenium.common.exceptions import NoSuchElementException
+
+from util.exceptions import PageNotFound404, NoInstaPostPageFound
+from util.instalogger import InstaLogger
 from util.settings import Settings
 from .util import web_adress_navigator
-import datetime
-from util.instalogger import InstaLogger
-from util.exceptions import PageNotFound404, NoInstaProfilePageFound, NoInstaPostPageFound
 
 
 def extract_post_info(browser, postlink):
@@ -339,8 +338,9 @@ def extract_post_likers(browser, post, postlink, likes):
                 browser.execute_script("arguments[0].scrollIntoView(true);", div_likebox_elem)
 
             if tried_catch_likers > 10:
-                InstaLogger.logger().error("exit scrolling likers " + str(tried_catch_likers) + "x tries - liker list: " + str(
-                    len(user_liked_list)) + " should be " + str(likes) + "")
+                InstaLogger.logger().error(
+                    "exit scrolling likers " + str(tried_catch_likers) + "x tries - liker list: " + str(
+                        len(user_liked_list)) + " should be " + str(likes) + "")
                 break
             likers_list_before = len(user_liked_list)
 

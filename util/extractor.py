@@ -1,29 +1,24 @@
 """Methods to extract the data for the given usernames profile"""
+import datetime
 import sys
 from time import sleep, time
-from re import findall
-import math
 
+import math
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
-import requests
+from util.exceptions import PageNotFound404, NoInstaProfilePageFound
+from util.extractor_posts import extract_post_info
+from util.instalogger import InstaLogger
 from util.settings import Settings
 from .util import web_adress_navigator
-from util.extractor_posts import extract_post_info
-import datetime
-from util.instalogger import InstaLogger
-from util.exceptions import PageNotFound404, NoInstaProfilePageFound
 
 
 def get_user_info(browser, username):
     """Get the basic user info from the profile screen"""
     num_of_posts = 0
-    followers = { 'count' : 0}
-    following = { 'count' : 0}
+    followers = {'count': 0}
+    following = {'count': 0}
     prof_img = ""
     bio = ""
     bio_url = ""
@@ -66,14 +61,13 @@ def get_user_info(browser, username):
         except:
             InstaLogger.logger().error("Number of Posts empty")
 
-
         try:
-            following = { 'count' : extract_exact_info(infos[2])}
+            following = {'count': extract_exact_info(infos[2])}
         except:
             InstaLogger.logger().error("Following is empty")
 
         try:
-            followers = { 'count' : extract_exact_info(infos[1])}
+            followers = {'count': extract_exact_info(infos[1])}
 
             try:
                 if Settings.scrape_follower == True:
@@ -91,7 +85,6 @@ def get_user_info(browser, username):
             InstaLogger.logger().error("Follower is empty")
     except:
         InstaLogger.logger().error("Infos (Following, Abo, Posts) is empty")
-
 
     information = {
         'alias': alias,
@@ -350,7 +343,6 @@ def extract_information(browser, username, limit_amount):
 
     num_of_posts_to_do = 999999
 
-
     try:
         userinfo = get_user_info(browser, username)
         if limit_amount < 1:
@@ -359,7 +351,6 @@ def extract_information(browser, username, limit_amount):
     except Exception as err:
         InstaLogger.logger().error("Couldn't get user profile. - Terminating")
         quit()
-
 
     prev_divs = browser.find_elements_by_class_name('_70iju')
 
@@ -377,7 +368,7 @@ def extract_information(browser, username, limit_amount):
 
     # sorts the list by frequencies, so users who comment the most are at the top
     import collections
-    from operator import itemgetter, attrgetter
+    from operator import itemgetter
     counter = collections.Counter(user_commented_total_list)
     com = sorted(counter.most_common(), key=itemgetter(1, 0), reverse=True)
     com = map(lambda x: [x[0]] * x[1], com)
