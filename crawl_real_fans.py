@@ -1,5 +1,7 @@
-#!/usr/bin/env python3.5
-"""Goes through all usernames and collects their information"""
+"""
+input: target_user_list
+output: followers of user in target_user_list
+"""
 import sys
 from time import time, sleep
 
@@ -15,9 +17,6 @@ from util.extractor import extract_exact_info
 from util.instalogger import InstaLogger
 from util.settings import Settings
 from util.util import web_adress_navigator
-
-# from selenium.webdriver.common.proxy import Proxy, ProxyType
-# from selenium.webdriver.firefox.options import Options as Firefox_Options
 
 chrome_options = Options()
 chromeOptions = webdriver.ChromeOptions()
@@ -235,7 +234,7 @@ def extract_information(browser, username):
     return userinfo
 
 
-def run():
+def run(usernames=['nightmello']):
     try:
         browser = init_chromedriver(chrome_options, capabilities)
     except Exception as exc:
@@ -243,8 +242,6 @@ def run():
         sys.exit()
 
     try:
-        usernames = ['nightmello']
-
         for username in usernames:
             print('Extracting information from ' + username)
             try:
